@@ -1,0 +1,623 @@
+/////////////////////////////////////
+////LOGO
+
+.logo {
+  height: 3.25rem;
+  margin-left: 2rem;
+}
+
+//////////////////////////////////////
+////SEARCH
+.search {
+  //flex-grow: 0; we don't want it to grow to fill the available space.
+  // flex-shrink: 0; e don't want it to shink when we reduce the viewport width
+  // flex-basis: 40%; to occupy 40% of the parent container
+  flex: 0 0 40%;
+
+  //   making an item a flex-container too
+  display: flex;
+  align-items: center; // xross/y axis- which the default is always stretch
+  justify-content: center; // main/x axis
+
+  @media only screen and (max-width: $bp-smallest) {
+    order: 1; // the default order position is 0, while 1 will put it at the last place
+
+    // the parent container is a flex-wrap so it should be in a new row
+    flex: 0 0 100%;
+    background-color: var(--color-grey-light-2);
+  }
+
+  &__input {
+    font-family: inherit; // input don't inherit the html font-family and size
+    font-size: inherit;
+    color: inherit;
+    background-color: var(--color-grey-light-2);
+    border: none;
+    padding: 0.7rem 2rem;
+    border-radius: 100px;
+    width: 90%;
+    transition: all 0.2s;
+    margin-right: -3.25rem;
+
+    &:focus {
+      outline: none;
+      width: 100%;
+      background-color: var(--color-grey-light-3);
+    }
+
+    &::-webkit-input-placeholder {
+      font-weight: 100;
+      color: var(--color-grey-light-4);
+    }
+  }
+
+  //  + using the adjacent selector to select sibling of the selected/focus element
+  &__input:focus + &__button {
+    background-color: var(--color-grey-light-3);
+  }
+
+  &__button {
+    border: none;
+    background-color: var(--color-grey-light-2);
+    // margin-left: -3.5rem;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:active {
+      transform: translateY(2px);
+    }
+  }
+
+  &__icon {
+    height: 2rem;
+    width: 2rem;
+
+    // changing color of and svg icon
+    fill: var(--color-grey-dark-3); // fill helps change the svg icon color
+  }
+}
+
+/////////////////////////////////////////
+///USER NAVIGATION
+.user-nav {
+  display: flex;
+  align-items: center;
+
+  // on the parent container(header) the align-item is centered but we want this user-nav to stretch from top to bottom
+  // so we use the align-self to over ride that and put it o be stretch
+  align-self: stretch;
+
+  //   user-nav > "direct" children * "all"
+  & > * {
+    padding: 0 2rem;
+    cursor: pointer;
+    height: 100%; // to fill the align-self to the parent container
+
+    display: flex;
+    align-items: center;
+  }
+
+  & > *:hover {
+    background-color: var(--color-grey-light-2);
+  }
+
+  &__icon-box {
+    position: relative;
+  }
+
+  &__icon {
+    height: 2.25rem;
+    width: 2.25rem;
+    fill: var(--color-grey-dark-2);
+  }
+
+  &__notification {
+    font-size: 0.8rem;
+    height: 1.75rem;
+    width: 1.75rem;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    color: #fff;
+
+    position: absolute;
+    top: 1.5rem;
+    right: 1.1rem;
+
+    // flex-box also works on text and not just parent and child element scenerio
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__user {
+  }
+
+  &__user-photo {
+    height: 3.75rem;
+    border-radius: 50%;
+    margin-left: 1rem;
+  }
+
+  &__user-name {
+    margin-left: 0.5rem;
+  }
+}
+
+///////////////////////////////////@at-root
+/// SIDE NAVIGATION
+
+.side-nav {
+  font-size: 1.4rem;
+  list-style: none;
+  margin-top: 3.5rem;
+
+  @media only screen and (max-width: $bp-medium) {
+    margin: 0;
+    display: flex;
+  }
+
+  &__item {
+    position: relative;
+
+    &:not(:last-child) {
+      margin-bottom: 0.5rem;
+
+      @media only screen and (max-width: $bp-medium) {
+        margin: 0;
+      }
+    }
+
+    @media only screen and (max-width: $bp-medium) {
+      flex: 1; //the children .side-nav should all grow to occupy full avaible
+    }
+  }
+
+  &__item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 3px;
+    background-color: var(--color-primary);
+    transform: scaleY(0);
+    transition: transform 0.2s, width 0.4s cubic-bezier(1, 0, 0, 1) 0.2s,
+      background-color 0.1s; // timing and delay of each animation
+  }
+
+  &__item:hover::before,
+  &__item--active::before {
+    transform: scaleY(1);
+    width: 100%;
+  }
+
+  &__item:active::before {
+    background-color: var(--color-grey-light);
+  }
+
+  &__link:link,
+  &__link:visited {
+    color: var(--color-grey-light-1);
+    text-decoration: none;
+    text-transform: uppercase;
+    display: block;
+    padding: 1.5rem 3rem;
+    position: relative;
+    z-index: 10; // to be on top of the ::before item
+
+    // center the children vertically
+    display: flex;
+    align-items: center;
+
+    @media only screen and (max-width: $bp-medium) {
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    @media only screen and (max-width: $bp-small) {
+      flex-direction: column;
+      padding: 1.5rem 0.5rem;
+    }
+  }
+
+  &__icon {
+    height: 1.75rem;
+    width: 1.75rem;
+    margin-right: 2rem;
+    fill: currentColor; // currentColor is just telling the svg img to use the parent color as its
+
+    @media only screen and (max-width: $bp-small) {
+      margin-right: 0;
+      margin-bottom: 0.7rem;
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+}
+
+///////////////////////////////////@at-root
+/// LEGALTEXT
+
+.legal {
+  font-size: 1.2rem;
+  color: var(--color-grey-light-4);
+  text-align: center;
+  padding: 2.5rem;
+
+  @media only screen and (max-width: $bp-medium) {
+    display: none;
+  }
+}
+
+///////////////////////////////////@at-root
+/// GALLERY
+
+.gallery {
+  display: flex; // to allow dem display side by side
+
+  &__photo {
+    width: 100%; // we did 100% cos we want them fill every available space but with padding or margin space but side by side display: flex;
+    display: block; // to stack the on top the down ones without space below the top and bottom ones
+  }
+}
+
+///////////////////////////////////@at-root
+/// OVERVIEW
+
+.overview {
+  display: flex; // we want the to display side in an inline block
+  align-items: center;
+  border-bottom: var(--line);
+
+  &__heading {
+    font-size: 2.25rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 1.5rem 3rem;
+
+    @media only screen and (max-width: $bp-small) {
+      font-size: 1.8rem;
+      padding: 1.25rem 2rem;
+    }
+  }
+
+  &__stars {
+    margin-right: auto; // we want put space btn this and the next elementr at the right side space btw
+    display: flex; // to align the children properly and inline wella
+  }
+
+  &__icon-star,
+  &__icon-location {
+    height: 1.75rem;
+    width: 1.75rem;
+    fill: var(--color-primary);
+  }
+
+  &__icon-location {
+    margin-right: 0.5rem;
+  }
+
+  &__location {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  &__rating {
+    background-color: var(--color-primary);
+    color: #fff;
+    margin-left: 3rem;
+    padding: 0 2.25rem;
+
+    align-self: stretch; // to offset/override the align-items of the parent element of center to stretch
+    //for this child background to occupy the the parent full height
+
+    ///////////////////////////////
+    /// centering the children
+    display: flex; // they'll display inline wise but we need them y axis/ lick block
+    flex-direction: column; // to set the direction in the y axis for the centering
+    align-items: center; // cos of direction change it will center it the x axis
+    justify-content: center;
+
+    @media only screen and (max-width: $bp-small) {
+      padding: 0 1.5rem;
+    }
+  }
+
+  &__rating-average {
+    font-size: 2.25rem;
+    font-weight: 300;
+    margin-bottom: -3px;
+
+    @media only screen and (max-width: $bp-small) {
+      font-size: 1.8rem;
+    }
+  }
+
+  &__rating-count {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+
+    @media only screen and (max-width: $bp-small) {
+      font-size: 0.5rem;
+    }
+  }
+}
+
+/////////////////////////////////////////`
+////BTN_INLINE
+
+.btn-inline {
+  border: none;
+  color: var(--color-primary); // this color
+  font-size: inherit;
+  border-bottom: 1px solid currentColor; //it inherit the parent or up color
+  display: inline-block;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  & span {
+    margin-left: 3px;
+    transition: margin-left 0.2s;
+  }
+
+  &:hover {
+    color: var(--color-grey-dark-1);
+    // animation: pulsate 1s infinite;
+
+    span {
+      margin-left: 8px;
+    }
+  }
+
+  &:focus {
+    outline: none; // outline is mostly on focus btn, input and all
+    animation: pulsate 1s infinite;
+  }
+}
+
+/////////////////////////////////////////@at-root
+//// PULSATING ANIMATION
+
+@keyframes pulsate {
+  0% {
+    transform: scale(1);
+    box-shadow: none;
+  }
+
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.25);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: none;
+  }
+}
+
+///////////////////////////////////////////////
+/// PARAGRAPH
+// last of type is the same element with the same name(in that particular container) and not last-child ohhh
+.paragraph:not(:last-of-type) {
+  margin-bottom: 2rem;
+}
+
+///////////////////////////////////////////////
+/// LIST
+.list {
+  list-style: none;
+  margin: 3rem 0;
+  padding: 3rem 0;
+  border-top: var(--line);
+  border-bottom: var(--line);
+
+  display: flex; // we want the list items side by side
+  flex-wrap: wrap; // for the list to pust to an other line if not enought space in the parent container
+
+  &__item {
+    flex: 0 0 50%; // each item will take 50% of the parent container to let the flex-wrap to push the rest on the next row
+    margin-bottom: 0.7rem;
+
+    &::before {
+      content: "";
+      display: inline-block;
+      height: 1rem;
+      width: 1rem;
+      margin-right: 0.7rem;
+
+      // older browser
+      // background-image: url(../img/chevron-thin-right.svg);
+      // background-size: cover;
+
+      // NEW BROWSER
+      background-color: var(--color-primary);
+      -webkit-mask-image: url(../img/chevron-thin-right.svg);
+      -webkit-mask-size: cover;
+
+      mask-image: url(../img/chevron-thin-right.svg);
+      mask-size: cover;
+    }
+  }
+}
+
+///////////////////////////////////////////////
+/// RECOMMEND
+.recommend {
+  font-size: 1.3rem;
+  color: var(--color-grey-dark-3);
+
+  display: flex;
+  align-items: center;
+
+  &__count {
+    margin-right: auto;
+  }
+
+  &__friends {
+    display: flex;
+  }
+
+  &__photo {
+    box-sizing: content-box; // content-box make the border on top of the element/img
+    // border-box allows the margin/border/pading to be added to the element
+    height: 4rem;
+    width: 4rem;
+    border-radius: 50%;
+    border: 3px solid #fff;
+
+    &:not(last-child) {
+      margin-right: -2rem; // it will pust the element to the right side into the
+      // element at the right instead of creating space at the right side
+    }
+  }
+}
+
+///////////////////////////////////////////////
+/// REVIEWS
+
+.review {
+  background-color: #fff;
+  box-shadow: var(--shadow-light);
+  padding: 3rem;
+  margin-bottom: 3.5rem;
+  position: relative;
+  overflow: hidden; // overflowing ::before
+
+  @media only screen and (max-width: $bp-medium) {
+    padding: 2rem;
+    margin-bottom: 3;
+  }
+
+  &__text {
+    margin-bottom: 2rem;
+    z-index: 10;
+    position: relative; // for the z-index to work one most set the element position(it a must)
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+  }
+
+  &__photo {
+    height: 4.5rem;
+    width: 4.5rem;
+    border-radius: 50%;
+    margin-right: 1.5rem;
+  }
+
+  &__user-box {
+    margin-right: auto;
+  }
+
+  &__user-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  &__user-date {
+    font-size: 1rem;
+    color: var(--color-grey-dark-3);
+  }
+
+  &__rating {
+    color: var(--color-primary);
+    font-size: 2.2rem;
+    font-weight: 300;
+  }
+
+  &::before {
+    content: "\201C";
+    position: absolute;
+    top: -2.75rem;
+    left: -1rem;
+    line-height: 1;
+    font-size: 20rem;
+    color: var(--color-grey-light-2);
+    font-family: sans-serif;
+    z-index: 1;
+  }
+}
+
+///////////////////////////////
+/// Call To Action
+.cta {
+  padding: 3.5rem 0;
+  text-align: center;
+
+  @media only screen and (max-width: $bp-medium) {
+    padding: 2.5rem 0;
+  }
+
+  &__book-now {
+    font-size: 1.2rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+  }
+}
+
+///////////////////////////////
+/// BTN
+.btn {
+  font-size: 1.5rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  border-radius: 100px;
+  border: none;
+  background-image: linear-gradient(
+    to right,
+    var(--color-primary-light),
+    var(--color-primary-dark)
+  );
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+
+  & > * {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    transition: all 0.2s;
+  }
+
+  &__visible {
+    padding: 2rem 7.5rem;
+  }
+
+  &__invisible {
+    position: absolute;
+    padding: 2rem 0;
+    left: 0;
+    top: -100%;
+  }
+
+  &:hover {
+    background-image: linear-gradient(
+      to left,
+      var(--color-primary-light),
+      var(--color-primary-dark)
+    );
+  }
+
+  &:hover &__visible {
+    transform: translateY(100%);
+  }
+
+  &:hover &__invisible {
+    top: 0;
+  }
+
+  &:focus {
+    outline: none;
+    animation: pulsate 1s infinite;
+  }
+}

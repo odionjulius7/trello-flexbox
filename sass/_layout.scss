@@ -1,0 +1,110 @@
+.container {
+  max-width: 120rem; // the width can be less but not more that this
+  margin: 8rem auto;
+  background-color: var(--color-grey-light-1);
+  box-shadow: var(--shadow-dark);
+
+  min-height: 50rem;
+
+  @media only screen and (max-width: $bp-largest) {
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+.header {
+  font-size: 1.4rem;
+  height: 7rem;
+  background-color: #fff;
+  border-bottom: var(--line);
+
+  display: flex;
+  justify-content: space-between; // main/x axis
+  align-items: center; // positoned along the cross/y axis // default is stretch
+
+  @media only screen and (max-width: $bp-smallest) {
+    flex-wrap: wrap; // on 500px viewport or below when there is not enough space the last content are push to the next row
+    align-content: space-around;
+    height: 11rem;
+  }
+}
+
+.content {
+  display: flex;
+
+  @media only screen and (max-width: $bp-medium) {
+    // no need for the display:flex; since it already a flex container
+    flex-direction: column;
+  }
+}
+
+.sidebar {
+  background-color: var(--color-grey-dark-1);
+
+  //   flex-grow: 0; // if it should grow when the width of the parent container increase( 0 is no)
+  //   flex-shrink: 0; // if it should shrink when the width of the parent container decreases( 0 is no)
+  //   flex-basis: 18%; // the total width u want this element to have in the container parent OR USE THE SHORT HAND
+  flex: 0 0 18%;
+
+  // changing a parent container direction from x-axis to
+  // y-axis so that we can use the justify content to make spaces
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; // will create space btw side-nav and the legal text in the cross/y axis cos of flex-direction
+}
+
+.hotel-view {
+  background-color: #fff;
+
+  //   flex-grow: 1; // to grow more than the other items and occupy the extire available space OR USE THE SHORT HAND
+  flex: 1; // flex grow
+}
+
+///////////////////////////////////////////////
+/// DETAILS
+.details {
+  font-size: 1.4rem;
+  display: flex;
+  padding: 4.5rem;
+  background-color: var(--color-grey-light-1);
+  border-bottom: var(--line);
+
+  @media only screen and (max-width: $bp-medium) {
+    padding: 3rem;
+  }
+
+  @media only screen and (max-width: $bp-small) {
+    flex-direction: column;
+  }
+}
+
+///////////////////////////////////////////////
+/// DESCRIPTION
+.description {
+  background-color: #fff;
+  flex: 0 0 60%; // not to grow, not to shrink wen not enough space but to occupy 60% of the available width
+  padding: 3rem;
+  margin-right: 4.5rem;
+  box-shadow: var(--shadow-light);
+
+  @media only screen and (max-width: $bp-medium) {
+    padding: 2rem;
+    margin-right: 3rem;
+  }
+
+  @media only screen and (max-width: $bp-small) {
+    margin-right: 0;
+    margin-bottom: 3rem;
+  }
+}
+
+///////////////////////////////////////////////
+/// USER REVIEW
+.user-review {
+  flex: 1; // to cover/grow and cover the available space without giving it any specific size no:
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
